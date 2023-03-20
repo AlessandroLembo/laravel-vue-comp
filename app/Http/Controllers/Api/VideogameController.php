@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Videogame;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,9 @@ class VideogameController extends Controller
      */
     public function index()
     {
-        //
+        $videogames = Videogame::get();
+
+        return response()->json($videogames);
     }
 
     /**
