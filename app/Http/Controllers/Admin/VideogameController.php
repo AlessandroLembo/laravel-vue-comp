@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Videogame;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class VideogameController extends Controller
 {
@@ -23,7 +24,9 @@ class VideogameController extends Controller
      */
     public function create()
     {
-        //
+        $videogame = new Videogame();
+
+        return view('admin.videogames.create', compact('videogame'));
     }
 
     /**
@@ -31,38 +34,51 @@ class VideogameController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['title'], '-');
+        $videogame = new Videogame();
+        $videogame->fill($data);
+        $videogame->save();
+
+
+        return to_route('admin.videogames.show', $videogame->id);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Videogame $videogame)
     {
-        //
+        return view('admin.videogames.show', compact('videogame'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Videogame $videogame)
     {
-        //
+
+        return view('admin.videogames.edit', compact('videogame'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Videogame $videogame)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['title'], '-');
+        $videogame->update($data);
+
+        return to_route('admin.videogames.show', $videogame->id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Videogame $videogame)
     {
-        //
+        $videogame->delete();
+        return to_route('admin.videogames.index');
     }
 }
