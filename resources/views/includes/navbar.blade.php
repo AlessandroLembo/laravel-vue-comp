@@ -18,8 +18,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
-                <li class="nav-item">
+                <li class="nav-item d-flex">
                     <a class="nav-link" href="{{url('/') }}">{{ __('Home') }}</a>
+                    <a class="nav-link" href="{{url('/admin/videogames') }}">{{ __('Videogames') }}</a>
                 </li>
             </ul>
 
