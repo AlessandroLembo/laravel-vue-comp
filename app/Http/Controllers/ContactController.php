@@ -37,7 +37,7 @@ class ContactController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        if (Arr::exists($data, 'subscription')) {
+        if (Arr::exists($data, 'subscription') && $data['subscription']) {
             $exists = Contact::where('email', $data['email'])->count();
             if (!$exists) {
 
