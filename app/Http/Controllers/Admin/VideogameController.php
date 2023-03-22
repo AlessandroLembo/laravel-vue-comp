@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Videogame;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class VideogameController extends Controller
@@ -37,6 +39,10 @@ class VideogameController extends Controller
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
         $videogame = new Videogame();
+        if (Arr::exists($data, 'image')) {
+            $img_url = Storage::put('videogames', $data['image']);
+            $data['image'] = $img_url;
+        }
         $videogame->fill($data);
         $videogame->save();
 
@@ -68,6 +74,11 @@ class VideogameController extends Controller
     {
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
+        if (Arr::exists($data, 'image')) {
+            if ($videogame->image) Storage::delete($videogame->image);
+            $img_url = Storage::put('videogames', $data['image']);
+            $data['image'] = $img_url;
+        }
         $videogame->update($data);
 
         return to_route('admin.videogames.show', $videogame->id);
@@ -78,6 +89,7 @@ class VideogameController extends Controller
      */
     public function destroy(Videogame $videogame)
     {
+        if ($videogame->image) Storage::delete($videogame->image);
         $videogame->delete();
         return to_route('admin.videogames.index');
     }
