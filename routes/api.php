@@ -23,6 +23,7 @@ use App\Http\Controllers\ContactController;
 // Rotta API per il metodo index
 Route::get('/videogames', [VideogameController::class, 'index']);
 
+Route::get('/videogames/{id}', [VideogameController::class, 'show']);
 
 //Rotta per ricevere il messaggio dagli utenti
 
