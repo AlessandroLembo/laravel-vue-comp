@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\VideogameController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,8 @@ use App\Http\Controllers\Api\VideogameController;
 
 // Rotta API per il metodo index
 Route::get('/videogames', [VideogameController::class, 'index']);
+
+
+//Rotta per ricevere il messaggio dagli utenti
+
+Route::post('/contact-message', [ContactController::class, 'send']);
