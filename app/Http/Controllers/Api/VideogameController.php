@@ -33,9 +33,9 @@ class VideogameController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        $videogame = Videogame::find($id);
+        $videogame = Videogame::where('slug', $slug)->first();
         if (!$videogame) return response('null', 404);
         if ($videogame->image) $videogame->image = url('storage/' . $videogame->image);
         return response()->json($videogame);
