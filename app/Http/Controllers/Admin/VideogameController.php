@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Mail\VideogamePubblicationMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class VideogameController extends Controller
 {
@@ -45,6 +48,11 @@ class VideogameController extends Controller
         }
         $videogame->fill($data);
         $videogame->save();
+        if ($videogame) {
+            $email = new VideogamePubblicationMail();
+            $user_email = Auth::user()->email;
+            Mail::to($user_email)->send($email);
+        }
 
 
         return to_route('admin.videogames.show', $videogame->id);
