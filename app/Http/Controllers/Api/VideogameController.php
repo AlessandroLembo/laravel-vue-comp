@@ -15,6 +15,10 @@ class VideogameController extends Controller
     {
         $videogames = Videogame::get();
 
+        foreach ($videogames as $videogame) {
+            if ($videogame->image) $videogame->image = url('storage/' . $videogame->image);
+        }
+
         return response()->json($videogames);
     }
 
