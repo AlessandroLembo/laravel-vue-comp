@@ -9,6 +9,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Mail\VideogamePubblicationMail;
+use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,9 +51,15 @@ class VideogameController extends Controller
         $videogame->fill($data);
         $videogame->save();
         if ($videogame) {
-            $email = new VideogamePubblicationMail();
-            $user_email = Auth::user()->email;
-            Mail::to($user_email)->send($email);
+            $user_emails = Contact::all('email');
+            foreach ($user_emails as $user_email) {
+                Mail::to($user_email)->send(new VideogamePubblicationMail($videogame));
+            }
+            $user_id = Auth::id();
+            $auth_mails = User::where('id', '<>', $user_id)->pluck('email')->toArray();
+            foreach ($auth_mails as $auth_mail) {
+                Mail::to($auth_mail)->send(new VideogamePubblicationMail($videogame));
+            }
         }
 
 

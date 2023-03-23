@@ -8,17 +8,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Videogame;
 
 class VideogamePubblicationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected Videogame $videogame;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($videogame)
     {
-        //
+        $this->videogame = $videogame;
     }
 
     /**
@@ -39,6 +41,7 @@ class VideogamePubblicationMail extends Mailable
     {
         return new Content(
             view: 'mails.videogames.published',
+            with: ['title' => $this->videogame->title]
         );
     }
 
