@@ -9,6 +9,7 @@
           <div class="card-body text-center">
               <h1 class="card-title">Videogame {{ $videogame->title }}</h1>
               <p class="card-text">{{ $videogame->description }}</p>
+              <p class="card-text"><b>Prezzo:</b> €{{ $videogame->price }}</p>
           </div>
           <figure class="text-center">
               <img src="{{ asset('storage/' . $videogame->image) }}" class="card-img-bottom img-fluid w-50" alt="{{ $videogame->title }}">
