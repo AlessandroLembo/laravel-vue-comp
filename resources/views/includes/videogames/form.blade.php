@@ -31,7 +31,7 @@
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
-                <input type="number" class="form-control bg-dark text-light" id="price" name="price"
+                <input type="number" step=".01" class="form-control bg-dark text-light" id="price" name="price"
                     value="{{ old('price', $videogame->price) }}">
                 <small class="text-muted">Inserisci prezzo</small>
             </div>
